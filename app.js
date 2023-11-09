@@ -13,22 +13,19 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://lucid-journal-a7071.firebaseio.com',
 });
-
+let dreamsString = '';
 async function getDreams() {
-    try {
-        const dreamsCollectionRef = admin
-            .firestore()
-            .collection(collectionName);
-        const snapshot = await dreamsCollectionRef.get();
+    const dreamsCollectionRef = admin.firestore().collection(collectionName);
+    const snapshot = await dreamsCollectionRef.get();
+    const dreams = [];
+    snapshot.forEach((doc) => {
+        dreams.push(doc.data());
+    });
 
-        const dreams = [];
-        snapshot.forEach((doc) => {
-            dreams.push(doc.data());
-        });
-        console.log(dreams);
-    } catch (error) {
-        return 'Error fetching dreams: ' + error;
-    }
+    dreams.forEach((dream) => {
+        dreamsString = dreamsString + dream['content'];
+    });
+    return dreamsString;
 }
 getDreams();
 
@@ -42,9 +39,9 @@ async function fetchGPTResponse(promptText) {
 app.get('/', async (req, res) => {
     try {
         const response = await fetchGPTResponse(
-            'Erzähle mir etwas über JavaScript.'
+            'Please scramble the following string of dreams that visitors of a gallery shared. Take important keywords and common themes and arrange them in a random way. Please do not separate the output by commas. Make sure there are no racist, offensive and inappropriate entries in the final output. Here is the inout I want you to scramble: ' +
+                dreamsString
         );
-        console.log(response);
         res.send(response);
     } catch (error) {
         res.status(500).send('Error: ' + error);
