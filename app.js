@@ -36,7 +36,7 @@ async function fetchGPTResponse(promptText) {
     });
     return completion.choices[0];
 }
-app.get('/', async (req, res) => {
+app.get('/', async (res) => {
     try {
         const response = await fetchGPTResponse(
             'Please scramble the following string of dreams that visitors of a gallery shared. Take important keywords and common themes and arrange them in a random way. Please do not separate the output by commas. Make sure there are no racist, offensive and inappropriate entries in the final output. Here is the inout I want you to scramble: ' +
