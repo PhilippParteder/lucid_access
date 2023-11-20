@@ -47,6 +47,13 @@ app.get('/', async (req, res) => {
         res.status(500).send('Error: ' + error);
     }
 });
+app.get('/dreams', async (req, res) => {
+    try {
+        res.send(dreamsString);
+    } catch (error) {
+        res.status(500).send('Error: ' + error);
+    }
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on http://localhost:${port}`);
