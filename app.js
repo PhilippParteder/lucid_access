@@ -39,7 +39,7 @@ async function fetchGPTResponse(promptText) {
 app.get('/', async (req, res) => {
     try {
         const response = await fetchGPTResponse(
-            'Please scramble the following string of dreams that visitors of a gallery shared. Take important keywords and common themes and arrange them in a random way. Please do not separate the output by commas. Make sure there are no racist, offensive and inappropriate entries in the final output. Here is the input I want you to scramble: ' +
+            'Please scramble the following string of dreams that visitors of a gallery shared. Take important keywords and common themes and arrange them in a random way. Please do not separate the output by commas. Please only include the scrambled output, do not add any comments or extra text. There can be english and german entries, please keep the original language and do not translate everything to one language.  Make sure there are no racist, offensive and inappropriate entries in the final output. Here is the input I want you to scramble: ' +
                 dreamsString
         );
         res.send(response['message']['content']);
